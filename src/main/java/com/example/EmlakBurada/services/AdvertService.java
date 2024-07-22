@@ -79,7 +79,7 @@ public class AdvertService {
         }//advertRepository.deleteById(id);
     }
     public Adverts getAdvert(Long id) {
-        return advertRepository.getById(id);
+        return advertRepository.findById(id).get();
     }
     public List<Adverts> filterByAdvert(AdvertStatus advert) {
         return advertRepository.filterByAdvert(advert);
@@ -88,9 +88,9 @@ public class AdvertService {
         return advertRepository.filterByBuyer(status, buyer);
     }
 
-    public Adverts getAdvertNo(Long advertNo){
-        return advertRepository.getAdvertNo(advertNo);
-    }
+   // public Adverts getAdvertNo(Long advertNo){
+     //   return advertRepository.getAdvertNo(advertNo);
+    //}
 
 
 

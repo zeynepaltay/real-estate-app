@@ -49,8 +49,8 @@ public class AdvertController {
                                       @RequestParam("buyer") String buyer) {
         return advertService.filterByBuyer(status, buyer);
     }
-    @GetMapping("/No")
-    public Adverts getNoAdvert(@RequestParam("advertNo") Long advertNo){
-        return advertService.getAdvert(advertNo);
-    }
+//    @GetMapping("/No")
+//    public Adverts getNoAdvert(@RequestParam("advertNo") Long advertNo){
+//        return advertService.getAdvert(advertNo);
+//    }
 }

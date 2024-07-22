@@ -13,12 +13,12 @@ import java.util.List;
 public interface AdvertRepository extends JpaRepository<Adverts, Long> {
     // @Query anotasyonu ile
     @Query("SELECT i FROM Adverts i WHERE (:status IS NULL OR i.status = :status)")
-    List<Adverts> filterByAdvert(@Param("status") AdvertStatus adverts);
+    List<Adverts> filterByAdvert(@Param("status") AdvertStatus status);
 
     @Query("SELECT a FROM Adverts a WHERE (:status IS NULL OR a.status = :status) AND (:buyer IS NULL OR a.buyer = :buyer)")
     List<Adverts> filterByBuyer(@Param("status") AdvertStatus status, @Param("buyer") String buyer);
 
-    Adverts getAdvertNo(Long advertNo);
+    //Adverts getAdvertNo(Long advertNo);
 }
 
 
