@@ -4,7 +4,6 @@ import com.example.EmlakBurada.models.Enums.AdvertStatus;
 import jakarta.persistence.*;
 import lombok.*;
 
-import java.util.List;
 
 @Getter
 @Setter
@@ -87,8 +86,4 @@ public class Adverts {
     //@OneToMany
    // @JoinColumn(name="image_data_id, nullable = true")
    //private List<ImageData> imageData;
-
-
-
-
 }

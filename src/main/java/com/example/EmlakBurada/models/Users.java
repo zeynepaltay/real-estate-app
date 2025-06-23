@@ -15,7 +15,7 @@ import java.util.List;
 @Entity
 @Table(name = "users")
 public class Users implements Serializable {
-    @Id//böyle yapınca userın id si boş olamaz
+    @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private Long id;

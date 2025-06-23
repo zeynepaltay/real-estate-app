@@ -4,5 +4,4 @@ public enum AdvertStatus {
      ACTIVE,
      PASSIVE,
      IN_REVIEW
-
 }
