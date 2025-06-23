@@ -1,13 +1,10 @@
 package com.example.EmlakBurada.converter;
 
 import com.example.EmlakBurada.models.Adverts;
-import com.example.EmlakBurada.models.ImageData;
 import com.example.EmlakBurada.models.Users;
 import com.example.EmlakBurada.models.dtos.request.AdvertSaveRequest;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
-
-import java.util.List;
 
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class AdvertConverter {
@@ -26,7 +23,6 @@ public class AdvertConverter {
                 .furnished(request.getFurnished())
                 .advertiser(advertiser)
                 .users(users)
-
                 .build();
     }
 }

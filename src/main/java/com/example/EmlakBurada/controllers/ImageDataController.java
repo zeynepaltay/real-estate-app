@@ -2,7 +2,7 @@ package com.example.EmlakBurada.controllers;
 
 import com.example.EmlakBurada.models.ImageData;
 import com.example.EmlakBurada.services.ImageDataService;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -13,10 +13,10 @@ import java.io.IOException;
 import java.util.List;
 
 @RestController
+@RequiredArgsConstructor
 @RequestMapping("/image")
 public class ImageDataController {
-    @Autowired
-    private ImageDataService imageDataService;
+    private final ImageDataService imageDataService;
 
     @PostMapping
     public ResponseEntity<?> uploadImage(@RequestParam("image") MultipartFile file) throws IOException {
@@ -25,8 +25,10 @@ public class ImageDataController {
         return ResponseEntity.status(HttpStatus.OK)
                 .body(response);
     }
+
     @DeleteMapping("/delete/{id}")
     public boolean deleteImage(@PathVariable("id") Long id){
+
         return imageDataService.deleteImage(id);
     }
 
@@ -46,6 +48,7 @@ public class ImageDataController {
                 .contentType(MediaType.valueOf("image/png"))
                 .body(image);
     }
+
     @GetMapping("/{id}")
     public ResponseEntity<?>  getImageById(@PathVariable("id") List<Long> id){
         List<ImageData> image = imageDataService.findById(id);
@@ -53,6 +56,4 @@ public class ImageDataController {
                 .contentType(MediaType.valueOf("image/png"))
                 .body(image);
     }
-
-
 }
