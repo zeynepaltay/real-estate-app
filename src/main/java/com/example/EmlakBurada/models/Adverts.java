@@ -82,8 +82,4 @@ public class Adverts {
     @ManyToOne
     @JoinColumn(name = "packets_id, nullable = true")
     private Packets packets;
-
-    //@OneToMany
-   // @JoinColumn(name="image_data_id, nullable = true")
-   //private List<ImageData> imageData;
 }
