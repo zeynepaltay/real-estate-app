@@ -31,9 +31,9 @@ public class ImageDataController {
     public ResponseEntity<Boolean> deleteImage(@PathVariable("id") Long id) {
         boolean result = imageDataService.deleteImage(id);
         if (result) {
-            return ResponseEntity.ok(true); // 200 OK + true
+            return ResponseEntity.ok(true);
         } else {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(false); // 404 Not Found + false
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(false);
         }
     }
 
