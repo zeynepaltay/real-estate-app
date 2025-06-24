@@ -12,7 +12,7 @@ import java.util.List;
 @ToString
 public class AdvertSaveRequest {
     private String address;
-    private String details; //details of the advert, sonra yazasım gelfi ya
+    private String details;
     private Double price;
     private Integer advertNo;
     private Integer advertDate;
@@ -25,7 +25,7 @@ public class AdvertSaveRequest {
     private Integer numOfFloors;
     private String heating;
     private Boolean furnished;
-    private Long advertiserId; // who gave the advert
+    private Long advertiserId;
     private Long userId;
     private Boolean paymentReceived;
     private Long buyerId;
