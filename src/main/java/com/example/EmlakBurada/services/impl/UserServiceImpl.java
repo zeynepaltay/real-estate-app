@@ -5,13 +5,13 @@ import com.example.EmlakBurada.models.dtos.request.UserSaveRequest;
 import com.example.EmlakBurada.converter.UserConverter;
 import com.example.EmlakBurada.services.UserService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.example.EmlakBurada.repositories.UserRepository;
+
 @RequiredArgsConstructor
 @Service
 public class UserServiceImpl implements UserService {
-    @Autowired
+
     private final UserRepository userRepository;
 
     public Users getById(Long id){
@@ -31,6 +31,7 @@ public class UserServiceImpl implements UserService {
     public Users getUser(Long id) {
         return userRepository.getById(id);
     }
+
     public boolean deleteUser(Long id){
         userRepository.deleteById(id);
         return true;
