@@ -26,18 +26,22 @@ public class AdvertServiceImpl implements AdvertService {
     }
 
     public Adverts createAdvert(AdvertSaveRequest adverts) {
-        Users users=null;
-        Users advertiser=null;
-        List<ImageData> imageData= null;
-        if(adverts.getUserId() !=null){
-            users=userService.getUser(adverts.getUserId());
+        Users users = null;
+        Users advertiser = null;
+        List<ImageData> imageData = null;
+
+        if(adverts.getUserId() != null){
+            users = userService.getUser(adverts.getUserId());
         }
-        if(adverts.getAdvertiserId() !=null){
-            advertiser=userService.getUser(adverts.getAdvertiserId());
+
+        if(adverts.getAdvertiserId() != null){
+            advertiser = userService.getUser(adverts.getAdvertiserId());
         }
-        if(adverts.getImageId() !=null){
+
+        if(adverts.getImageId() != null){
             imageData = imageDataService.findById(adverts.getImageId());
         }
+
         Adverts adverts1 = AdvertConverter.toAdvert(adverts,users,advertiser);
         return advertRepository.save(adverts1);
     }
@@ -46,31 +50,31 @@ public class AdvertServiceImpl implements AdvertService {
         Users users = null;
         Users advertisers = null;
         List<ImageData> imageData = null;
+
         if(adverts.getUserId() != null){
             users = userService.getUser(adverts.getUserId());
         }
+
         if(adverts.getAdvertiserId() !=null){
             advertisers = userService.getUser(adverts.getAdvertiserId());
         }
+
         if(adverts.getImageId() !=null){
             imageData = imageDataService.findById(adverts.getImageId());
         }
-        // Advert nesnesini oluşturun
+
         Adverts adverts1 = AdvertConverter.toAdvert(adverts,users,advertisers);
 
-        // Veritabanına kaydedin
         return advertRepository.save(adverts1);
-//        Adverts adverts1 = AdvertConverter.toAdvert(adverts);
-//        Users user=adverts.getUserId();
-//        advertRepository.save(adverts1);
     }
 
     public boolean deleteAdvert(Long id) {
         Optional<Adverts> advert = advertRepository.findById(id);
+
         if (advert.isPresent()) {
             advertRepository.deleteById(id);
             return true;
-        } else {
+        }else{
             return false;
         }
     }
