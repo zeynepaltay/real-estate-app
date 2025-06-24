@@ -3,50 +3,53 @@ package com.example.EmlakBurada.controllers;
 import com.example.EmlakBurada.models.Adverts;
 import com.example.EmlakBurada.models.Enums.AdvertStatus;
 import com.example.EmlakBurada.models.dtos.request.AdvertSaveRequest;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import com.example.EmlakBurada.services.AdvertService;
-
 import java.util.List;
 
+@RequiredArgsConstructor
 @RestController
-    @RequestMapping("/api/v1/advert")
+@RequestMapping("/api/v1/advert")
 @CrossOrigin(origins = "http://localhost:3000")
 public class AdvertController {
-    AdvertService advertService;
-    @Autowired
-    public AdvertController(AdvertService advertService) {
-        this.advertService = advertService;
-    }
+
+    private final AdvertService advertService;
+
     @GetMapping
-    public List<Adverts> getAllAdverts(){
-        return advertService.getAllAdverts();
+    public ResponseEntity<List<Adverts>> getAllAdverts() {
+        return ResponseEntity.ok(advertService.getAllAdverts());
     }
 
-    @PostMapping("/createadvert")
-    public Adverts createAdvert(@RequestBody AdvertSaveRequest adverts){
-        return advertService.createAdvert(adverts);
-    }
-    @PutMapping("/updateadvert")
-    public Adverts updateAdvert(@RequestParam("adverts") AdvertSaveRequest adverts){
-        return advertService.updateAdvert(adverts);
+    @PostMapping("/create-advert")
+    public ResponseEntity<Adverts> createAdvert(@RequestBody AdvertSaveRequest adverts) {
+        return ResponseEntity.ok(advertService.createAdvert(adverts));
     }
 
-    @DeleteMapping("/deleteadvert")
-    public Boolean deleteAdvert(@RequestParam("id") Long id){
-        return advertService.deleteAdvert(id);//burda sildim silemedim falan diye dönüş lazım
+    @PutMapping("/update-advert")
+    public ResponseEntity<Adverts> updateAdvert(@RequestParam("adverts") AdvertSaveRequest adverts) {
+        return ResponseEntity.ok(advertService.updateAdvert(adverts));
     }
-    @GetMapping("/getadvert")
-    public Adverts getAdvert(@RequestParam("id") Long id){
-        return advertService.getAdvert(id);
+
+    @DeleteMapping("/delete-advert")
+    public ResponseEntity<Boolean> deleteAdvert(@RequestParam("id") Long id) {
+        return ResponseEntity.ok(advertService.deleteAdvert(id));
     }
+
+    @GetMapping("/get-advert")
+    public ResponseEntity<Adverts> getAdvert(@RequestParam("id") Long id) {
+        return ResponseEntity.ok(advertService.getAdvert(id));
+    }
+
     @GetMapping("/search")
-    public List<Adverts> searchAdvert(@RequestParam("adverts") AdvertStatus adverts) {
-        return advertService.filterByAdvert(adverts);
+    public ResponseEntity<List<Adverts>> searchAdvert(@RequestParam("adverts") AdvertStatus adverts) {
+        return ResponseEntity.ok(advertService.filterByAdvert(adverts));
     }
-    @GetMapping("/searchbuyer")
-    public List<Adverts> searchAdverts(@RequestParam("status") AdvertStatus status,
-                                      @RequestParam("buyer") String buyer) {
-        return advertService.filterByBuyer(status, buyer);
+
+    @GetMapping("/search-buyer")
+    public ResponseEntity<List<Adverts>> searchAdverts(@RequestParam("status") AdvertStatus status,
+                                       @RequestParam("buyer") String buyer) {
+        return ResponseEntity.ok(advertService.filterByBuyer(status, buyer));
     }
 }

@@ -16,6 +16,7 @@ import java.util.List;
 @RequiredArgsConstructor
 @RequestMapping("/image")
 public class ImageDataController {
+
     private final ImageDataService imageDataService;
 
     @PostMapping
@@ -27,9 +28,13 @@ public class ImageDataController {
     }
 
     @DeleteMapping("/delete/{id}")
-    public boolean deleteImage(@PathVariable("id") Long id){
-
-        return imageDataService.deleteImage(id);
+    public ResponseEntity<Boolean> deleteImage(@PathVariable("id") Long id) {
+        boolean result = imageDataService.deleteImage(id);
+        if (result) {
+            return ResponseEntity.ok(true); // 200 OK + true
+        } else {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(false); // 404 Not Found + false
+        }
     }
 
     @GetMapping("/info/{name}")
