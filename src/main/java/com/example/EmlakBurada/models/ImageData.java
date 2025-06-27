@@ -29,4 +29,8 @@ public class ImageData {
     @ManyToOne
     @JoinColumn(name = "adverts_id")
     private Packets advertes;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "advert_id")
+    private Adverts adverts;
 }
