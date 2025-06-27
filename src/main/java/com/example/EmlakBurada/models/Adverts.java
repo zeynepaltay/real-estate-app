@@ -4,6 +4,8 @@ import com.example.EmlakBurada.models.Enums.AdvertStatus;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.List;
+
 
 @Getter
 @Setter
@@ -82,4 +84,7 @@ public class Adverts {
     @ManyToOne
     @JoinColumn(name = "packets_id, nullable = true")
     private Packets packets;
+
+    @OneToMany(mappedBy = "adverts", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<ImageData> images;
 }
