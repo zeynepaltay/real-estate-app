@@ -11,6 +11,7 @@ import java.util.List;
 @Builder
 @ToString
 public class UserSaveRequest {
+    private Long id;
     private String name;
     private String surname;
     private String email;
