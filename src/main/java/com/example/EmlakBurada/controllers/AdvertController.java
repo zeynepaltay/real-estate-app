@@ -33,23 +33,23 @@ public class AdvertController {
     }
 
     @DeleteMapping("/delete-advert")
-    public ResponseEntity<Boolean> deleteAdvert(@RequestParam("id") Long id) {
+    public ResponseEntity<Boolean> deleteAdvert(@RequestParam Long id) {
         return ResponseEntity.ok(advertService.deleteAdvert(id));
     }
 
     @GetMapping("/get-advert")
-    public ResponseEntity<Adverts> getAdvert(@RequestParam("id") Long id) {
+    public ResponseEntity<Adverts> getAdvert(@RequestParam Long id) {
         return ResponseEntity.ok(advertService.getAdvert(id));
     }
 
     @GetMapping("/search")
-    public ResponseEntity<List<Adverts>> searchAdvert(@RequestParam("adverts") AdvertStatus adverts) {
+    public ResponseEntity<List<Adverts>> searchAdvert(@RequestParam AdvertStatus adverts) {
         return ResponseEntity.ok(advertService.filterByAdvert(adverts));
     }
 
     @GetMapping("/search-buyer")
-    public ResponseEntity<List<Adverts>> searchAdverts(@RequestParam("status") AdvertStatus status,
-                                       @RequestParam("buyer") String buyer) {
+    public ResponseEntity<List<Adverts>> searchAdverts(@RequestParam AdvertStatus status,
+                                       @RequestParam String buyer) {
         return ResponseEntity.ok(advertService.filterByBuyer(status, buyer));
     }
 }
