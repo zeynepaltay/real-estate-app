@@ -8,86 +8,100 @@ import com.example.EmlakBurada.models.Adverts;
 import com.example.EmlakBurada.models.Enums.AdvertStatus;
 import com.example.EmlakBurada.repositories.AdvertRepository;
 import com.example.EmlakBurada.services.AdvertService;
+import com.example.EmlakBurada.services.ImageDataService;
+import com.example.EmlakBurada.services.UserService;
+import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
 @RequiredArgsConstructor
 @Service
 public class AdvertServiceImpl implements AdvertService {
-    private final ImageDataServiceImpl imageDataService;
+    private final ImageDataService imageDataService;
     private final AdvertRepository advertRepository;
-    private final UserServiceImpl userService;
+    private final UserService userService;
 
     public List<Adverts> getAllAdverts(){
         List<Adverts> result = advertRepository.findAll();
+
+        if (result.isEmpty()) {
+            throw new EntityNotFoundException("No adverts found in the system.");
+        }
+
         return result;
     }
 
-    public Adverts createAdvert(AdvertSaveRequest adverts) {
-        Users users = null;
-        Users advertiser = null;
-        List<ImageData> imageData = null;
+    public Adverts createAdvert(AdvertSaveRequest request) {
 
-        if(adverts.getUserId() != null){
-            users = userService.getUser(adverts.getUserId());
-        }
+        Users users = Optional.ofNullable(request.getUserId())
+                .map(userService::getUser)
+                .orElseThrow(()->new IllegalArgumentException("User id must not be null or invalid"));
 
-        if(adverts.getAdvertiserId() != null){
-            advertiser = userService.getUser(adverts.getAdvertiserId());
-        }
+        Users advertiser = Optional.ofNullable(request.getAdvertiserId())
+                .map(userService::getUser)
+                .orElseThrow(()-> new IllegalArgumentException("Advertiser id must not be null or invalid"));
 
-        if(adverts.getImageId() != null){
-            imageData = imageDataService.findById(adverts.getImageId());
-        }
+        List<ImageData> imageDataList = Optional.ofNullable(request.getImageId())
+                .map(imageDataService::findById)
+                .orElse(Collections.emptyList());
 
-        Adverts adverts1 = AdvertConverter.toAdvert(adverts,users,advertiser);
-        return advertRepository.save(adverts1);
+        Adverts adverts = AdvertConverter.toAdvert(request, users, advertiser);
+        adverts.setImages(imageDataList);
+        return advertRepository.save(adverts);
     }
 
-    public Adverts updateAdvert(AdvertSaveRequest adverts) {
-        Users users = null;
-        Users advertisers = null;
-        List<ImageData> imageData = null;
+    public Adverts updateAdvert(AdvertSaveRequest request) {
+        Users users = Optional.ofNullable(request.getUserId())
+                .map(userService::getUser)
+                .orElseThrow(()-> new IllegalArgumentException("User id must not be null or invalid"));
 
-        if(adverts.getUserId() != null){
-            users = userService.getUser(adverts.getUserId());
+        Users advertisers = Optional.ofNullable(request.getAdvertiserId())
+                .map(userService::getUser)
+                .orElseThrow(()-> new IllegalArgumentException("Advertiser id must not be null or invalid"));
+
+        List<ImageData> imageDataList = Optional.ofNullable(request.getImageId())
+                .map(imageDataService::findById)
+                .orElse(Collections.emptyList());
+
+        Adverts adverts = AdvertConverter.toAdvert(request, users, advertisers);
+
+        if (!imageDataList.isEmpty()) {
+            adverts.setImages(imageDataList);
         }
 
-        if(adverts.getAdvertiserId() !=null){
-            advertisers = userService.getUser(adverts.getAdvertiserId());
-        }
-
-        if(adverts.getImageId() !=null){
-            imageData = imageDataService.findById(adverts.getImageId());
-        }
-
-        Adverts adverts1 = AdvertConverter.toAdvert(adverts,users,advertisers);
-
-        return advertRepository.save(adverts1);
+        return advertRepository.save(adverts);
     }
 
     public boolean deleteAdvert(Long id) {
-        Optional<Adverts> advert = advertRepository.findById(id);
+        Adverts advert = advertRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Advert not found with id: " + id));
 
-        if (advert.isPresent()) {
-            advertRepository.deleteById(id);
-            return true;
-        }else{
-            return false;
-        }
+        advertRepository.delete(advert);
+        return true;
     }
 
     public Adverts getAdvert(Long id) {
-        return advertRepository.findById(id).get();
+        return advertRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Advert not found with id: " + id));
     }
 
     public List<Adverts> filterByAdvert(AdvertStatus advert) {
+        if(advert == null){
+            throw new IllegalArgumentException("Advert status must not be null");
+        }
+
         return advertRepository.filterByAdvert(advert);
     }
 
     public List<Adverts> filterByBuyer(AdvertStatus status, String buyer) {
+        if (status == null || buyer == null || buyer.isBlank()) {
+            throw new IllegalArgumentException("Advert status and buyer must not be null or empty");
+        }
+
         return advertRepository.filterByBuyer(status, buyer);
     }
 }
