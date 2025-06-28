@@ -11,6 +11,6 @@ public class PacketConverter {
             return Packets.builder()
                 .numOfAdRight(request.getNumOfAdRight())
                 .timeLeftToEnd(request.getTimeLeftToEnd())
-                    .build();
+                .build();
     }
 }
