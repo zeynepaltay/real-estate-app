@@ -17,7 +17,7 @@ public class UserController {
 private final UserService userService;
 
 @GetMapping("/get-user")
-public ResponseEntity<Users> getUser(@RequestParam("id") Long id){
+public ResponseEntity<Users> getUser(@RequestParam Long id){
     return ResponseEntity.ok(userService.getById(id));
 }
 
@@ -34,8 +34,8 @@ public ResponseEntity<Users> updateUser(@RequestBody UserSaveRequest users) {
 
 @GetMapping("/login")
 public ResponseEntity<Users> getByLogin(
-        @RequestParam("email") String email,
-        @RequestParam("password") String password)
+        @RequestParam String email,
+        @RequestParam String password)
 {
     return ResponseEntity.ok(userService.getByLogin(email,password));
     }

@@ -20,7 +20,7 @@ public class ImageDataController {
     private final ImageDataService imageDataService;
 
     @PostMapping
-    public ResponseEntity<?> uploadImage(@RequestParam("image") MultipartFile file) throws IOException {
+    public ResponseEntity<?> uploadImage(@RequestParam MultipartFile file) throws IOException {
         ImageData response = imageDataService.uploadImage(file);
 
         return ResponseEntity.status(HttpStatus.OK)
@@ -28,7 +28,7 @@ public class ImageDataController {
     }
 
     @DeleteMapping("/delete/{id}")
-    public ResponseEntity<Boolean> deleteImage(@PathVariable("id") Long id) {
+    public ResponseEntity<Boolean> deleteImage(@PathVariable Long id) {
         boolean result = imageDataService.deleteImage(id);
         if (result) {
             return ResponseEntity.ok(true);
@@ -38,7 +38,7 @@ public class ImageDataController {
     }
 
     @GetMapping("/info/{name}")
-    public ResponseEntity<?>  getImageInfoByName(@PathVariable("name") String name){
+    public ResponseEntity<?>  getImageInfoByName(@PathVariable String name){
         ImageData image = imageDataService.getInfoByImageByName(name);
 
         return ResponseEntity.status(HttpStatus.OK)
@@ -46,7 +46,7 @@ public class ImageDataController {
     }
 
     @GetMapping("/{name}")
-    public ResponseEntity<?>  getImageByName(@PathVariable("name") String name){
+    public ResponseEntity<?>  getImageByName(@PathVariable String name){
         byte[] image = imageDataService.getImage(name);
 
         return ResponseEntity.status(HttpStatus.OK)
@@ -55,7 +55,7 @@ public class ImageDataController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<?>  getImageById(@PathVariable("id") List<Long> id){
+    public ResponseEntity<?>  getImageById(@PathVariable List<Long> id){
         List<ImageData> image = imageDataService.findById(id);
         return ResponseEntity.status(HttpStatus.OK)
                 .contentType(MediaType.valueOf("image/png"))

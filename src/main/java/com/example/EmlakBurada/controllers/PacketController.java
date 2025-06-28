@@ -16,22 +16,22 @@ public class PacketController {
     private final PacketService packetService;
 
     @PostMapping("/create-packet")
-    public ResponseEntity<Packets> createPacket(@RequestParam("packet") PacketSaveRequest packets){
+    public ResponseEntity<Packets> createPacket(@RequestParam PacketSaveRequest packets){
         return ResponseEntity.ok(packetService.createPacket(packets));
     }
 
     @GetMapping("/get-packet")
-    public ResponseEntity<Packets> getPacket(@RequestParam("id") Long id){
+    public ResponseEntity<Packets> getPacket(@RequestParam Long id){
         return ResponseEntity.ok(packetService.getPacket(id));
     }
 
     @PutMapping("/update-packet")
-    public ResponseEntity<Packets> updatePacket(@RequestParam("packets") PacketSaveRequest packets){
+    public ResponseEntity<Packets> updatePacket(@RequestParam PacketSaveRequest packets){
         return ResponseEntity.ok(packetService.updatePacket(packets));
     }
 
     @DeleteMapping("/delete-packet")
-    public ResponseEntity<Boolean> deletePacket(@RequestParam("packets") PacketSaveRequest packets) {
+    public ResponseEntity<Boolean> deletePacket(@RequestParam PacketSaveRequest packets) {
         boolean result = packetService.deletePacket(packets);
         if (result) {
             return ResponseEntity.ok(true);
