@@ -2,6 +2,7 @@ package com.example.EmlakBurada.models.dtos.request;
 
 import lombok.*;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Getter
@@ -15,7 +16,7 @@ public class AdvertSaveRequest {
     private String details;
     private Double price;
     private Integer advertNo;
-    private Integer advertDate;
+    private LocalDateTime advertDate;
     private Integer bath;
     private Double ruler;
     private String realEstateType;

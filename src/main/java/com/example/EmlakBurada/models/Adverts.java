@@ -4,6 +4,7 @@ import com.example.EmlakBurada.models.Enums.AdvertStatus;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 
@@ -36,7 +37,7 @@ public class Adverts {
     private Integer advertNo;
 
     @Column(name = "advert_date")
-    private Integer advertDate;
+    private LocalDateTime advertDate;
 
     @Column(name = "real_estate_type")
     private String realEstateType;//enum yapilcak
