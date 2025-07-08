@@ -15,6 +15,7 @@ public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
 
+    @Override
     public Users getById(Long id){
         if(id == null){
             throw new IllegalArgumentException("Id cannot be null");
@@ -23,6 +24,7 @@ public class UserServiceImpl implements UserService {
                 .orElseThrow(() -> new IllegalArgumentException("User not found"));
     }
 
+    @Override
     public Users createUser(UserSaveRequest request) {
         if (request == null) {
             throw new IllegalArgumentException("User request must not be null.");
@@ -31,6 +33,7 @@ public class UserServiceImpl implements UserService {
         return userRepository.save(users);
     }
 
+    @Override
     public Users updateAdvert(UserSaveRequest request){
         if (request == null) {
             throw new IllegalArgumentException("User request must not be null.");
@@ -42,6 +45,7 @@ public class UserServiceImpl implements UserService {
         return userRepository.save(users);
     }
 
+    @Override
     public Users getUser(Long id) {
         return userRepository.getById(id);
     }

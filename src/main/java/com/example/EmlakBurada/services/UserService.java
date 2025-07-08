@@ -14,5 +14,7 @@ public interface UserService {
 
     Users getUser(Long id);
 
+    boolean deleteUser(Long id);
+
     Users getByLogin(String email, String password);
 }
