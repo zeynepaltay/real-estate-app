@@ -1,6 +1,7 @@
 package com.example.EmlakBurada.models;
 
 import com.example.EmlakBurada.models.Enums.AdvertStatus;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -69,6 +70,7 @@ public class Adverts {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "advertiser_id")
+    @JsonIgnore
     private Users advertiser;// who gave the advert
 
     @ManyToOne(fetch = FetchType.LAZY)
