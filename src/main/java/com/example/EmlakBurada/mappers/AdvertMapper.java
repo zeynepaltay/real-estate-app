@@ -5,14 +5,11 @@ import com.example.EmlakBurada.models.dtos.request.AdvertSaveRequest;
 import com.example.EmlakBurada.models.dtos.response.AdvertResponse;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
-import org.mapstruct.factory.Mappers;
 
 import java.util.List;
 
 @Mapper(componentModel = "spring")
 public interface AdvertMapper {
-    AdvertMapper INSTANCE = Mappers.getMapper(AdvertMapper.class);
-
     @Mapping(target ="users", ignore =true)
     @Mapping(target = "advertiser", ignore =true)
     @Mapping(target = "images", ignore = true)

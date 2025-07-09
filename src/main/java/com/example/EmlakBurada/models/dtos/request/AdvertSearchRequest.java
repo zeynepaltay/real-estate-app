@@ -2,6 +2,8 @@ package com.example.EmlakBurada.models.dtos.request;
 
 import lombok.*;
 
+import java.time.LocalDateTime;
+
 @Getter
 @Setter
 @AllArgsConstructor
@@ -12,7 +14,7 @@ public class AdvertSearchRequest {
     private String address;
     private Double price;
     private Integer advertNo;
-    private Integer advertDate;
+    private LocalDateTime advertDate;
     private Integer bath;
     private Double ruler;
     private String realEstateType;//enum yapilcak

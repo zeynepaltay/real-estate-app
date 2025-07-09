@@ -2,6 +2,8 @@ package com.example.EmlakBurada.models.dtos.response;
 
 import lombok.*;
 
+import java.time.LocalDateTime;
+
 @Getter
 @Setter
 @AllArgsConstructor
@@ -12,7 +14,7 @@ public class AdvertResponse {
     private String details; //details of the advert, sonra yazasım gelfi ya
     private Double price;
     private Integer advertNo;
-    private Integer advertDate;
+    private LocalDateTime advertDate;
     private String realEstateType;//enum yapilcak
     //m² (Brüt), m² (Net) için yazılacak
     private Integer numOfRooms;
