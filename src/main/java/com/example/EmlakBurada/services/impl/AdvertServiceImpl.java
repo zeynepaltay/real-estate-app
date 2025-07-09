@@ -1,11 +1,12 @@
 package com.example.EmlakBurada.services.impl;
 
-import com.example.EmlakBurada.converter.AdvertConverter;
+import com.example.EmlakBurada.mappers.AdvertMapper;
 import com.example.EmlakBurada.models.ImageData;
 import com.example.EmlakBurada.models.Users;
 import com.example.EmlakBurada.models.dtos.request.AdvertSaveRequest;
 import com.example.EmlakBurada.models.Adverts;
 import com.example.EmlakBurada.models.Enums.AdvertStatus;
+import com.example.EmlakBurada.models.dtos.response.AdvertResponse;
 import com.example.EmlakBurada.repositories.AdvertRepository;
 import com.example.EmlakBurada.services.AdvertService;
 import com.example.EmlakBurada.services.ImageDataService;
@@ -24,18 +25,18 @@ public class AdvertServiceImpl implements AdvertService {
     private final ImageDataService imageDataService;
     private final AdvertRepository advertRepository;
     private final UserService userService;
+    private final AdvertMapper advertMapper;
 
-    public List<Adverts> getAllAdverts(){
+    public List<AdvertResponse> getAllAdverts(){
         List<Adverts> result = advertRepository.findAll();
-
         if (result.isEmpty()) {
             throw new EntityNotFoundException("No adverts found in the system.");
         }
 
-        return result;
+        return advertMapper.toResponseList(result);
     }
 
-    public Adverts createAdvert(AdvertSaveRequest request) {
+    public AdvertResponse createAdvert(AdvertSaveRequest request) {
 
         Users users = Optional.ofNullable(request.getUserId())
                 .map(userService::getUser)
@@ -49,17 +50,20 @@ public class AdvertServiceImpl implements AdvertService {
                 .map(imageDataService::findById)
                 .orElse(Collections.emptyList());
 
-        Adverts adverts = AdvertConverter.toAdvert(request, users, advertiser);
+        Adverts adverts = advertMapper.toAdvert(request);
+        adverts.setUsers(users);
+        adverts.setAdvertiser(advertiser);
         adverts.setImages(imageDataList);
-        return advertRepository.save(adverts);
+        Adverts saved = advertRepository.save(adverts);
+        return advertMapper.toResponse(saved);
     }
 
-    public Adverts updateAdvert(AdvertSaveRequest request) {
+    public AdvertResponse updateAdvert(AdvertSaveRequest request) {
         Users users = Optional.ofNullable(request.getUserId())
                 .map(userService::getUser)
                 .orElseThrow(()-> new IllegalArgumentException("User id must not be null or invalid"));
 
-        Users advertisers = Optional.ofNullable(request.getAdvertiserId())
+        Users advertiser = Optional.ofNullable(request.getAdvertiserId())
                 .map(userService::getUser)
                 .orElseThrow(()-> new IllegalArgumentException("Advertiser id must not be null or invalid"));
 
@@ -67,13 +71,17 @@ public class AdvertServiceImpl implements AdvertService {
                 .map(imageDataService::findById)
                 .orElse(Collections.emptyList());
 
-        Adverts adverts = AdvertConverter.toAdvert(request, users, advertisers);
+        Adverts adverts = advertMapper.toAdvert(request);
+        adverts.setUsers(users);
+        adverts.setAdvertiser(advertiser);
+        adverts.setImages(imageDataList);
 
         if (!imageDataList.isEmpty()) {
             adverts.setImages(imageDataList);
         }
 
-        return advertRepository.save(adverts);
+        Adverts saved = advertRepository.save(adverts);
+        return advertMapper.toResponse(saved);
     }
 
     public boolean deleteAdvert(Long id) {
@@ -84,24 +92,27 @@ public class AdvertServiceImpl implements AdvertService {
         return true;
     }
 
-    public Adverts getAdvert(Long id) {
-        return advertRepository.findById(id)
+    public AdvertResponse getAdvert(Long id) {
+        Adverts saved = advertRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Advert not found with id: " + id));
+        return advertMapper.toResponse(saved);
     }
 
-    public List<Adverts> filterByAdvert(AdvertStatus advert) {
+    public List<AdvertResponse> filterByAdvert(AdvertStatus advert) {
         if(advert == null){
             throw new IllegalArgumentException("Advert status must not be null");
         }
 
-        return advertRepository.filterByAdvert(advert);
+        List<Adverts> result = advertRepository.filterByAdvert(advert);
+        return advertMapper.toResponseList(result);
     }
 
-    public List<Adverts> filterByBuyer(AdvertStatus status, String buyer) {
+    public List<AdvertResponse> filterByBuyer(AdvertStatus status, String buyer) {
         if (status == null || buyer == null || buyer.isBlank()) {
             throw new IllegalArgumentException("Advert status and buyer must not be null or empty");
         }
 
-        return advertRepository.filterByBuyer(status, buyer);
+        List<Adverts> result = advertRepository.filterByBuyer(status, buyer);
+        return advertMapper.toResponseList(result);
     }
 }

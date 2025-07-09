@@ -1,25 +1,25 @@
 package com.example.EmlakBurada.services;
 
-import com.example.EmlakBurada.models.Adverts;
 import com.example.EmlakBurada.models.Enums.AdvertStatus;
 import com.example.EmlakBurada.models.dtos.request.AdvertSaveRequest;
+import com.example.EmlakBurada.models.dtos.response.AdvertResponse;
 import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
 public interface AdvertService {
 
-    List<Adverts> getAllAdverts();
+    List<AdvertResponse> getAllAdverts();
 
-    Adverts createAdvert(AdvertSaveRequest adverts);
+    AdvertResponse createAdvert(AdvertSaveRequest adverts);
 
-    Adverts updateAdvert(AdvertSaveRequest adverts);
+    AdvertResponse updateAdvert(AdvertSaveRequest adverts);
 
     boolean deleteAdvert(Long id);
 
-    Adverts getAdvert(Long id);
+    AdvertResponse getAdvert(Long id);
 
-    List<Adverts> filterByAdvert(AdvertStatus advert);
+    List<AdvertResponse> filterByAdvert(AdvertStatus advert);
 
-    List<Adverts> filterByBuyer(AdvertStatus status, String buyer);
+    List<AdvertResponse> filterByBuyer(AdvertStatus status, String buyer);
 }

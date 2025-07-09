@@ -1,8 +1,8 @@
 package com.example.EmlakBurada.controllers;
 
-import com.example.EmlakBurada.models.Adverts;
 import com.example.EmlakBurada.models.Enums.AdvertStatus;
 import com.example.EmlakBurada.models.dtos.request.AdvertSaveRequest;
+import com.example.EmlakBurada.models.dtos.response.AdvertResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -18,17 +18,17 @@ public class AdvertController {
     private final AdvertService advertService;
 
     @GetMapping
-    public ResponseEntity<List<Adverts>> getAllAdverts() {
+    public ResponseEntity<List<AdvertResponse>> getAllAdverts() {
         return ResponseEntity.ok(advertService.getAllAdverts());
     }
 
     @PostMapping("/create-advert")
-    public ResponseEntity<Adverts> createAdvert(@RequestBody AdvertSaveRequest adverts) {
+    public ResponseEntity<AdvertResponse> createAdvert(@RequestBody AdvertSaveRequest adverts) {
         return ResponseEntity.ok(advertService.createAdvert(adverts));
     }
 
     @PutMapping("/update-advert")
-    public ResponseEntity<Adverts> updateAdvert(@RequestParam("adverts") AdvertSaveRequest adverts) {
+    public ResponseEntity<AdvertResponse> updateAdvert(@RequestParam("adverts") AdvertSaveRequest adverts) {
         return ResponseEntity.ok(advertService.updateAdvert(adverts));
     }
 
@@ -38,17 +38,17 @@ public class AdvertController {
     }
 
     @GetMapping("/get-advert")
-    public ResponseEntity<Adverts> getAdvert(@RequestParam Long id) {
+    public ResponseEntity<AdvertResponse> getAdvert(@RequestParam Long id) {
         return ResponseEntity.ok(advertService.getAdvert(id));
     }
 
     @GetMapping("/search")
-    public ResponseEntity<List<Adverts>> searchAdvert(@RequestParam AdvertStatus adverts) {
+    public ResponseEntity<List<AdvertResponse>> searchAdvert(@RequestParam AdvertStatus adverts) {
         return ResponseEntity.ok(advertService.filterByAdvert(adverts));
     }
 
     @GetMapping("/search-buyer")
-    public ResponseEntity<List<Adverts>> searchAdverts(@RequestParam AdvertStatus status,
+    public ResponseEntity<List<AdvertResponse>> searchAdverts(@RequestParam AdvertStatus status,
                                        @RequestParam String buyer) {
         return ResponseEntity.ok(advertService.filterByBuyer(status, buyer));
     }
